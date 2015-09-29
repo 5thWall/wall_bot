@@ -1,0 +1,2 @@
+defmodule WallBot do
+end
