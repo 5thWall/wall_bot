@@ -1,0 +1,6 @@
+%{"dogirc": {:git, "git://github.com/5thWall/dogirc.git", "17cf5128c1e155790120e9e0c7529ee6a93d95cc", []},
+  "dogma": {:hex, :dogma, "0.0.8"},
+  "fs": {:hex, :fs, "0.9.2"},
+  "mix_test_watch": {:hex, :mix_test_watch, "0.2.4"},
+  "poison": {:hex, :poison, "1.5.0"},
+  "socket": {:hex, :socket, "0.2.8"}}

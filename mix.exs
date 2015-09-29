@@ -14,7 +14,7 @@ defmodule WallBot.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger, :dogirc]]
   end
 
   # Dependencies can be Hex packages:
@@ -27,6 +27,10 @@ defmodule WallBot.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:dogma, "~>0.0", only: ~w(dev test)a},
+      {:mix_test_watch, only: :dev},
+      {:dogirc, git: "git://github.com/5thWall/dogirc.git"}
+    ]
   end
 end
