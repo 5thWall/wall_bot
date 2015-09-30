@@ -27,6 +27,17 @@ defmodule WallBot.BucketHandler do
     {:ok, bucket}
   end
 
+  def handle_event(cmd = %Command{type: :privmsg, from: usr}, bucket) do
+    if Regex.run(~r/wallbot: give me sometihng/i, cmd.message) do
+      bucket
+      |> Bucket.take
+      |> get_message(usr.nick)
+      |> disp_exchange(cmd.target)
+    end
+
+    {:ok, bucket}
+  end
+
   def handle_event(event, bucket) do
     {:ok, bucket}
   end
@@ -44,6 +55,14 @@ defmodule WallBot.BucketHandler do
 
   defp get_message({obj, new_obj}) do
     "takes #{obj} and but drops #{new_obj}"
+  end
+
+  defp get_message(:nothing, _) do
+    "has nothing to give"
+  end
+
+  defp get_message(obj, nick) do
+    "gives #{nick} #{obj}"
   end
 
   defp disp_exchange(message, target) do

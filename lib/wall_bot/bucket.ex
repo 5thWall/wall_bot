@@ -19,6 +19,9 @@ defmodule WallBot.Bucket do
 
   use GenServer
 
+  ##
+  # Client Implementation
+
   def start_link do
     GenServer.start_link(__MODULE__, @initial_items)
   end
@@ -26,6 +29,13 @@ defmodule WallBot.Bucket do
   def add(bucket, obj) do
     GenServer.call(bucket, {:add, obj})
   end
+
+  def take(bucket) do
+    GenServer.call(bucket, :take)
+  end
+
+  ##
+  # Server Implementation
 
   def handle_call({:add, obj}, _from, items) do
     n = @max - length(items)
@@ -37,15 +47,36 @@ defmodule WallBot.Bucket do
     {:reply, new_item, items}
   end
 
+  def handle_call(:take, _from, []) do
+    {:reply, :nothing, []}
+  end
+
+  def handle_call(:take, _from, items) do
+    {new_item, items} = take_rnd(items)
+
+    {:reply, new_item, items}
+  end
+
   defp replace_at_rnd(items, item) do
-    n =
-      items
-      |> length
-      |> :rand.uniform
-      |> -(1)
+    n = rand_index(items)
 
     {:ok, new_item} = Enum.fetch(items, n)
 
     {new_item, List.replace_at(items, n, item)}
+  end
+
+  defp take_rnd(items) do
+    n = rand_index(items)
+
+    {:ok, item} = Enum.fetch(items, n)
+
+    {item, List.delete_at(items, n)}
+  end
+
+  defp rand_index(list) do
+    items
+    |> length
+    |> :rand.uniform
+    |> -(1)
   end
 end
