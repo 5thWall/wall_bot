@@ -7,7 +7,7 @@ defmodule WallBot do
 
 
   def main do
-    Client.join("#test")
+    Client.join("#dogirc")
     add_bucket
   end
 

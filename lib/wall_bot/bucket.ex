@@ -74,7 +74,7 @@ defmodule WallBot.Bucket do
   end
 
   defp rand_index(list) do
-    items
+    list
     |> length
     |> :rand.uniform
     |> -(1)
