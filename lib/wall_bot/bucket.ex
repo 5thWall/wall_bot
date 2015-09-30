@@ -6,20 +6,18 @@ defmodule WallBot.Bucket do
   @initial_items [
     "the D.I.C. codebase",
     "five dosen eggs",
-    "omlet du fromage",
+    "omelette du fromage",
     "four tons of glitter",
     "root permissions",
     "a traffic cone",
     "death",
-    "a bridge over the river Cock",
+    "a fine red mist",
     "the Fall `04 Toonami lineup",
     "a pretty pink princess pony",
     "science!"
   ]
 
   use GenServer
-
-  alias DogIRC.Client
 
   def start_link do
     GenServer.start_link(__MODULE__, @initial_items)

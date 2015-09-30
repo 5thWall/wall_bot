@@ -16,7 +16,6 @@ defmodule WallBot.BucketHandler do
   end
 
   def handle_event(cmd = %Command{type: :action}, bucket) do
-    IO.puts("Got an action: #{cmd.message}")
     r_match = Regex.run(@reg, cmd.message)
     if r_match do
       r_match
@@ -29,8 +28,6 @@ defmodule WallBot.BucketHandler do
   end
 
   def handle_event(event, bucket) do
-    IO.puts("Got something else")
-    IO.puts(inspect event)
     {:ok, bucket}
   end
 
