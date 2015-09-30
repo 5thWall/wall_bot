@@ -30,7 +30,7 @@ defmodule WallBot.Mixfile do
     [
       {:dogma, "~>0.0", only: ~w(dev test)a},
       {:mix_test_watch, only: :dev},
-      {:dogirc, git: "git://github.com/5thWall/dogirc.git"}
+      {:dogirc, git: "../dogirc"}
     ]
   end
 end
