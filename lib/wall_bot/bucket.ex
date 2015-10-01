@@ -22,8 +22,8 @@ defmodule WallBot.Bucket do
   ##
   # Client Implementation
 
-  def start_link do
-    GenServer.start_link(__MODULE__, @initial_items)
+  def start_link(initial_items \\ @initial_items, max \\ @max) do
+    GenServer.start_link(__MODULE__, %{items: initial_items, max: max})
   end
 
   def add(bucket, obj) do
@@ -37,24 +37,28 @@ defmodule WallBot.Bucket do
   ##
   # Server Implementation
 
-  def handle_call({:add, obj}, _from, items) do
-    n = @max - length(items)
+  def handle_call({:add, obj}, _from, state = %{items: []}) do
+    {:reply, :nothing, %{state | items: [obj]}}
+  end
+
+  def handle_call({:add, obj}, _from, state = %{items: items}) do
+    n = state.max - length(items)
     {new_item, items} = case :rand.uniform(n) do
       1 -> replace_at_rnd(items, obj)
       _ -> {:nothing, [obj|items]}
     end
 
-    {:reply, new_item, items}
+    {:reply, new_item, %{state | items: items}}
   end
 
-  def handle_call(:take, _from, []) do
-    {:reply, :nothing, []}
+  def handle_call(:take, _from, state = %{items: []}) do
+    {:reply, :nothing, state}
   end
 
-  def handle_call(:take, _from, items) do
+  def handle_call(:take, _from, state = %{items: items}) do
     {new_item, items} = take_rnd(items)
 
-    {:reply, new_item, items}
+    {:reply, new_item, %{state | items: items}}
   end
 
   defp replace_at_rnd(items, item) do

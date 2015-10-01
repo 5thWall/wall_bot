@@ -49,6 +49,10 @@ defmodule WallBot.BucketHandler do
     {object, ret_object}
   end
 
+  defp get_message({obj, :reject}) do
+    "But I already have #{obj}!"
+  end
+
   defp get_message({obj, :nothing}) do
     "takes #{obj}"
   end
